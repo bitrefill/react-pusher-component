@@ -1,0 +1,12 @@
+{
+  "name": "react-pusher",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.js",
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "pusher-js": "^4.2.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
