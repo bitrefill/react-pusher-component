@@ -12,6 +12,10 @@ class PusherSubscription extends React.Component {
 
   constructor(props) {
     super(props);
+    if (!pusherClient) {
+      console.warn('setup pusher client using setPusherClient()');
+    }
+
     this.bindPusherEvents(props.channel, props.events);
   }
 
