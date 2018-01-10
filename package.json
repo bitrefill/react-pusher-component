@@ -2,12 +2,20 @@
   "name": "react-pusher",
   "version": "0.1.0",
   "private": true,
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack"
+  },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "dependencies": {
     "prop-types": "^15.6.0",
     "pusher-js": "^4.2.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "webpack": "^3.10.0"
   }
 }
