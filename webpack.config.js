@@ -1,11 +1,8 @@
 const path = require('path');
 
 const srcPath = path.join(__dirname, './src');
-
 module.exports = {
-  entry: [
-    srcPath
-  ],
+  entry: [srcPath],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
@@ -13,18 +10,21 @@ module.exports = {
     libraryTarget: 'umd'
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js']
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         include: srcPath,
-        loader: 'babel-loader'
+        loaders: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
       }
     ]
   },
   externals: {
-    "react": "React"
+    react: 'react'
   }
 };
