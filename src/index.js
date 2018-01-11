@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-let pusherClient = undefined;
+let pusherClient;
 
 export function setPusherClient(client) {
   pusherClient = client;

@@ -7,6 +7,7 @@
     "build": "webpack"
   },
   "peerDependencies": {
+    "@types/pusher-js": "^3.0.30",
     "pusher-js": "^4.2.2"
   },
   "dependencies": {
