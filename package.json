@@ -7,11 +7,11 @@
     "build": "webpack"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "pusher-js": "^4.2.2"
   },
   "dependencies": {
     "prop-types": "^15.6.0",
-    "pusher-js": "^4.2.2"
+    "react": "^16.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

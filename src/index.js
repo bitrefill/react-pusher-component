@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pusher from 'pusher-js';
 
 let pusherClient = undefined;
 
