@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 let pusherClient
 
-export function setPusherClient(client) {
+export function setPusherClient(createClient) {
   if (window && window.Pusher && window.Pusher.instances && window.Pusher.instances[0]) {
     pusherClient = window.Pusher.instances[0]
   } else {
-    pusherClient = client
+    pusherClient = createClient()
   }
 }
 

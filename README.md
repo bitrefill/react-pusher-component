@@ -6,7 +6,7 @@
 import Pusher from 'pusher-js';
 import { setPusherClient } from 'react-pusher';
 
-setPusherClient(new Pusher('key', {
+setPusherClient(() => new Pusher('key', {
   encrypted: true
 }));
 ```
