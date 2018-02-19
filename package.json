@@ -10,7 +10,8 @@
     "build": "webpack",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:patch": "npm version patch && npm publish && git push --follow-tags"
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "@types/pusher-js": "^3.0.30",
