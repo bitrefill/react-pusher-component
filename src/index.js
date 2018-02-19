@@ -6,8 +6,9 @@ let pusherClient = {
   unsubscribe: () => console.warn('no pusherClient')
 };
 
-export function setPusherClient(client) {
-  pusherClient = client;
+export function setPusherClient(newClient) {
+  const existingClient = window && window.Pusher
+  pusherClient = existingClient || newClient;
 }
 
 class PusherSubscription extends React.Component {
@@ -33,6 +34,11 @@ class PusherSubscription extends React.Component {
 
   componentWillUnmount() {
     this.unbindPusherEvents(this.props.channel);
+  }
+
+  componentDidCatch(err, info) {
+    console.error(err)
+    console.error(info)
   }
 
   unbindPusherEvents(channel) {
