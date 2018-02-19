@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-let pusherClient;
+let pusherClient = {
+  subscribe: () => console.warn('no pusherClient'),
+  unsubscribe: () => console.warn('no pusherClient')
+};
 
 export function setPusherClient(client) {
   pusherClient = client;
