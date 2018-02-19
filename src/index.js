@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-let pusherClient = {
-  subscribe: () => console.warn('no pusherClient'),
-  unsubscribe: () => console.warn('no pusherClient')
-};
+let pusherClient
 
 export function setPusherClient(newClient) {
-  const existingClient = window && window.Pusher
-  pusherClient = existingClient || newClient;
+  pusherClient = (window && window.Pusher) || newClient || {
+    subscribe: () => console.warn('no pusherClient'),
+    unsubscribe: () => console.warn('no pusherClient')
+  };
 }
 
 class PusherSubscription extends React.Component {
@@ -37,20 +36,20 @@ class PusherSubscription extends React.Component {
   }
 
   componentDidCatch(err, info) {
-    console.error(err)
-    console.error(info)
+    console.error('react-pusher', err)
+    console.error('react-pusher', info)
   }
 
   unbindPusherEvents(channel) {
-    this.channelInstance.unbind();
-    pusherClient.unsubscribe(channel);
+    this.channelInstance && this.channelInstance.unbind();
+    pusherClient && pusherClient.unsubscribe(channel);
   }
 
   bindPusherEvents(channel, events) {
-    this.channelInstance = pusherClient.subscribe(channel);
+    this.channelInstance = pusherClient && pusherClient.subscribe(channel);
 
     events.forEach(event =>
-      this.channelInstance.bind(event, payload =>
+      this.channelInstance && this.channelInstance.bind(event, payload =>
         this.props.onUpdate(event, payload)
       )
     );
