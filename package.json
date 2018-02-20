@@ -14,11 +14,11 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@types/pusher-js": "^3.0.30",
-    "pusher-js": "^4.2.2"
+    "@types/pusher-js": "^3.0.30"
   },
   "dependencies": {
     "prop-types": "^15.6.0",
+    "pusher-js": "^4.2.2",
     "react": "^16.2.0"
   },
   "devDependencies": {
