@@ -8,10 +8,9 @@ export function setPusherClient(apiKey, opts = {}) {
   const existingInstances = (window && window.Pusher && window.Pusher.instances) || []
   const existingInstance = existingInstances.find(instance => instance.key === apiKey)
 
-  pusherClient = existingInstance || new Pusher(apiKey, {
+  pusherClient = existingInstance || new Pusher(apiKey, Object.assign({}, {
     encrypted: true,
-    ...opts
-  })
+  }, opts))
 }
 
 class PusherSubscription extends React.Component {
