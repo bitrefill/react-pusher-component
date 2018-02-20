@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Pusher from 'pusher-js';
 
 let pusherClient
 
-export function setPusherClient(createClient) {
-  if (window && window.Pusher && window.Pusher.instances && window.Pusher.instances[0]) {
-    pusherClient = window.Pusher.instances[0]
-  } else {
-    pusherClient = createClient()
-  }
+export function setPusherClient(apiKey, opts = {}) {
+  const existingInstances = (window && window.Pusher && window.Pusher.instances) || []
+  const existingInstance = existingInstances.find(instance => instance.key === apiKey)
+
+  pusherClient = existingInstance || new Pusher(apiKey, {
+    encrypted: true,
+    ...opts
+  })
 }
 
 class PusherSubscription extends React.Component {
@@ -34,11 +37,6 @@ class PusherSubscription extends React.Component {
 
   componentWillUnmount() {
     this.unbindPusherEvents(this.props.channel);
-  }
-
-  componentDidCatch(err, info) {
-    console.error('react-pusher', err)
-    console.error('react-pusher', info)
   }
 
   unbindPusherEvents(channel) {

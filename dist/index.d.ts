@@ -1,7 +1,6 @@
 import React from 'react';
-import Pusher from 'pusher-js';
 
-export function setPusherClient(client: Pusher);
+export function setPusherClient(apiKey: string, opts: object);
 
 interface Props {
   channel: string;
