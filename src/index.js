@@ -14,28 +14,28 @@ export function setPusherClient(apiKey, opts = {}) {
 }
 
 class PusherSubscription extends React.Component {
-
   constructor(props) {
     super(props);
-    if (!pusherClient) {
+
+    if (pusherClient) {
+      this.bindPusherEvents(props.channel, props.events);
+    } else {
       console.warn('setup pusher client using setPusherClient()');
     }
-
-    this.bindPusherEvents(props.channel, props.events);
   }
 
   componentWillReceiveProps({ channel: newChannel, events: newEvents }) {
     const { channel, events } = this.props;
-    if (channel === newChannel && events === newEvents) {
-      return;
-    }
+    if (channel === newChannel && events === newEvents) return;
 
-    this.unbindPusherEvents(channel);
-    this.bindPusherEvents(newChannel, newEvents);
+    if (pusherClient) {
+      this.unbindPusherEvents(channel);
+      this.bindPusherEvents(newChannel, newEvents);
+    }
   }
 
   componentWillUnmount() {
-    this.unbindPusherEvents(this.props.channel);
+    pusherClient && this.unbindPusherEvents(this.props.channel);
   }
 
   unbindPusherEvents(channel) {
