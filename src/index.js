@@ -1,67 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pusher from 'pusher-js';
 
-let pusherClient
+import ErrorBoundary from './error-boundary';
+import Subscription, { setClient } from './subscription';
 
-export function setPusherClient(apiKey, opts = {}) {
-  const existingInstances = (window && window.Pusher && window.Pusher.instances) || []
-  const existingInstance = existingInstances.find(instance => instance.key === apiKey)
+export const setPusherClient = setClient;
 
-  pusherClient = existingInstance || new Pusher(apiKey, Object.assign({}, {
-    encrypted: true,
-  }, opts))
-}
-
-class PusherSubscription extends React.Component {
-  constructor(props) {
-    super(props);
-
-    if (pusherClient) {
-      this.bindPusherEvents(props.channel, props.events);
-    } else {
-      console.warn('setup pusher client using setPusherClient()');
-    }
-  }
-
-  componentWillReceiveProps({ channel: newChannel, events: newEvents }) {
-    const { channel, events } = this.props;
-    if (channel === newChannel && events === newEvents) return;
-
-    if (pusherClient) {
-      this.unbindPusherEvents(channel);
-      this.bindPusherEvents(newChannel, newEvents);
-    }
-  }
-
-  componentWillUnmount() {
-    pusherClient && this.unbindPusherEvents(this.props.channel);
-  }
-
-  unbindPusherEvents(channel) {
-    this.channelInstance.unbind();
-    pusherClient.unsubscribe(channel);
-  }
-
-  bindPusherEvents(channel, events) {
-    this.channelInstance = pusherClient.subscribe(channel);
-
-    events.forEach(event =>
-      this.channelInstance.bind(event, payload =>
-        this.props.onUpdate(event, payload)
-      )
-    );
-  }
-
-  render() {
-    return null;
-  }
+export default function PusherSubscription(props) {
+  return (
+    <ErrorBoundary onError={props.onError}>
+      <Subscription {...props} />
+    </ErrorBoundary>
+  );
 }
 
 PusherSubscription.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
-  channel: PropTypes.string.isRequired,
-  events: PropTypes.array.isRequired
+  onError: PropTypes.func,
 };
-
-export default PusherSubscription;
