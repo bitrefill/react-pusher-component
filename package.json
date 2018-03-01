@@ -39,10 +39,7 @@
     ]
   },
   "eslintConfig": {
-    "extends": "bitrefill",
-    "globals": {
-      "__DEV__": true
-    }
+    "extends": "bitrefill"
   },
   "eslintIgnore": [
     "node_modules",

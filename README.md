@@ -24,9 +24,6 @@ const App = () => {
       onUpdate={(event, payload) => {
         // ...
       }}
-      onError={({err, info}) => {
-        // ...
-      }}
     />
   )
 }
