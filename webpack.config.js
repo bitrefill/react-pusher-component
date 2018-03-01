@@ -1,16 +1,17 @@
 const path = require('path');
 
 const srcPath = path.join(__dirname, './src');
+
 module.exports = {
   entry: [srcPath],
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
     library: 'react-pusher',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js'],
   },
   module: {
     rules: [
@@ -19,12 +20,12 @@ module.exports = {
         include: srcPath,
         loaders: 'babel-loader',
         query: {
-          presets: ['es2015']
-        }
-      }
-    ]
+          presets: ['react-app'],
+        },
+      },
+    ],
   },
   externals: {
-    react: 'react'
-  }
+    react: 'react',
+  },
 };
