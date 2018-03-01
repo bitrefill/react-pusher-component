@@ -28,7 +28,6 @@ export default class PusherSubscription extends PureComponent {
     onUpdate: PropTypes.func.isRequired,
     channel: PropTypes.string.isRequired,
     events: PropTypes.array.isRequired,
-    children: PropTypes.node,
   };
 
   constructor(props) {
@@ -71,6 +70,6 @@ export default class PusherSubscription extends PureComponent {
   }
 
   render() {
-    return this.props.children;
+    return null;
   }
 }
