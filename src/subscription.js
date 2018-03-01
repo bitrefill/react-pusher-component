@@ -7,22 +7,20 @@ let pusherClient;
 export function setClient(apiKey, opts = {}) {
   const existingInstances =
     (window && window.Pusher && window.Pusher.instances) || [];
-  const existingInstance = existingInstances.find(
-    instance => instance.key === apiKey
-  );
+
+  const existingInstance = existingInstances.find(x => x.key === apiKey);
+
+  if (existingInstance) {
+    console.log('Found an existing Pusher instance', existingInstance);
+  }
 
   pusherClient =
     existingInstance ||
-    new Pusher(
-      apiKey,
-      Object.assign(
-        {},
-        {
-          encrypted: true,
-        },
-        opts
-      )
-    );
+    new Pusher(apiKey, {
+      encrypted: true,
+      authTransport: 'ajax',
+      ...opts,
+    });
 }
 
 class Subscription extends PureComponent {
