@@ -46,6 +46,17 @@ function SomeComponent() {
 }
 ```
 
+```javascript
+// Access the pusher instance
+
+import { pusherClient } from '@bitrefill/react-pusher';
+
+
+const pusher = new Pusher(PUSHER_API_KEY);
+const channel = pusher.subscribe('someChannel');
+// ...
+```
+
 ## PropTypes
 
 | Name              | Type
