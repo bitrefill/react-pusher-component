@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'index.js',
-    library: 'react-pusher',
+    library: 'react-pusher-component',
     libraryTarget: 'umd',
   },
   resolve: {
