@@ -1,2 +1,6 @@
 node_modules/
 dist/index.js
+
+yarn-error.log
+npm-error.log
+package-lock.json
