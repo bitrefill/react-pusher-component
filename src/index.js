@@ -1,10 +1,8 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js';
 
-let pusherClient;
-
-export function setPusherClient(apiKey, opts = {}) {
+function createPusherClient(apiKey, opts = {}) {
   const existingInstances =
     (window && window.Pusher && window.Pusher.instances) || [];
 
@@ -14,62 +12,64 @@ export function setPusherClient(apiKey, opts = {}) {
     console.log('Found an existing Pusher instance', existingInstance);
   }
 
-  pusherClient =
+  return (
     existingInstance ||
     new Pusher(apiKey, {
       encrypted: true,
       authTransport: 'ajax',
       ...opts,
-    });
+    })
+  );
 }
 
 export default class PusherSubscription extends PureComponent {
   static propTypes = {
+    apiKey: PropTypes.string.isRequired,
+    opts: PropTypes.object,
     onUpdate: PropTypes.func.isRequired,
     channel: PropTypes.string.isRequired,
     events: PropTypes.array.isRequired,
+    children: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+    const { apiKey, channel, events, opts } = this.props;
 
-    if (pusherClient) {
-      this.bindPusherEvents(props.channel, props.events);
-    } else {
-      console.warn('setup pusher client using setPusherClient()');
-    }
+    this.pusherClient = createPusherClient(apiKey, opts);
+    this.bindPusherEvents(channel, events);
   }
 
   componentWillReceiveProps({ channel: newChannel, events: newEvents }) {
     const { channel, events } = this.props;
     if (channel === newChannel && events === newEvents) return;
 
-    if (pusherClient) {
+    if (this.pusherClient) {
       this.unbindPusherEvents(channel);
       this.bindPusherEvents(newChannel, newEvents);
     }
   }
 
   componentWillUnmount() {
-    pusherClient && this.unbindPusherEvents(this.props.channel);
-  }
-
-  unbindPusherEvents(channel) {
-    this.channelInstance.unbind();
-    pusherClient.unsubscribe(channel);
+    this.pusherClient && this.unbindPusherEvents();
   }
 
   bindPusherEvents(channel, events) {
-    this.channelInstance = pusherClient.subscribe(channel);
+    const { onUpdate } = this.props;
+    this.channelInstance = this.pusherClient.subscribe(channel);
 
     events.forEach(event =>
-      this.channelInstance.bind(event, payload =>
-        this.props.onUpdate(event, payload)
-      )
+      this.channelInstance.bind(event, payload => onUpdate(event, payload))
     );
   }
 
+  unbindPusherEvents() {
+    const { channel } = this.props;
+    this.channelInstance.unbind();
+    this.pusherClient.unsubscribe(channel);
+  }
+
   render() {
-    return null;
+    return <h1>{'PUSHER is loaded!'}</h1>;
   }
 }

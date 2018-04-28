@@ -1,24 +1,41 @@
 # react-pusher
 
 ```javascript
-// Setup pusher
+// Use the pusher component
 
-import Pusher from 'pusher-js';
-import { setPusherClient } from 'react-pusher';
+import Pusher from '@bitrefill/react-pusher';
 
-setPusherClient('key', {
-  somePusherOption: true
-}));
+function SomeComponent() {
+  return (
+    <Pusher
+      apiKey={PUSHER_API_KEY}
+      opts={{additional: 'options'}}
+      channel="channel"
+      events={["event"]}
+      onUpdate={(event, payload) => {
+        // ...
+      }}
+    />
+  )
+}
 ```
 
 ```javascript
-// Use the pusher component
+// Load the component async
 
-import PusherSubscription from 'react-pusher';
+import React from 'react';
+import Loadable from 'react-loadable';
 
-const App = () => {
+const LoadablePusher = Loadable({
+  loader: () => import('@bitrefill/react-pusher'),
+  loading: null,
+});
+
+function SomeComponent() {
   return (
-    <PusherSubscription
+    <LoadablePusher
+      apiKey={PUSHER_API_KEY}
+      opts={{additional: 'options'}}
       channel="channel"
       events={["event"]}
       onUpdate={(event, payload) => {
@@ -33,6 +50,8 @@ const App = () => {
 
 | Name              | Type
 | ----              | ----
+| `apiKey`         | `PropTypes.string.isRequired`
+| `opts`         | `PropTypes.object`
 | `channel`         | `PropTypes.string.isRequired`
 | `events`          | `PropTypes.array.isRequired`
 | `onUpdate`        | `PropTypes.func.isRequired`

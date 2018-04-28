@@ -1,6 +1,6 @@
 {
   "name": "@bitrefill/react-pusher",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack",
+    "build:watch": "NODE_ENV=production webpack -w",
     "lint": "eslint ./ --max-warnings 0 --fix",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
