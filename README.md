@@ -35,7 +35,7 @@ function SomeComponent() {
   return (
     <LoadablePusher
       apiKey={PUSHER_API_KEY}
-      opts={{additional: 'options'}}
+      opts={{ additional: 'options' }}
       channel="channel"
       events={["event"]}
       onUpdate={(event, payload) => {
@@ -49,11 +49,21 @@ function SomeComponent() {
 ```javascript
 // Access the pusher instance
 
-import { pusherClient } from '@bitrefill/react-pusher';
+import { getPusherClient } from '@bitrefill/react-pusher';
 
-
-const pusher = new Pusher(PUSHER_API_KEY);
+const pusher = getPusherClient(PUSHER_API_KEY, { additional: 'options' });
 const channel = pusher.subscribe('someChannel');
+// ...
+```
+
+```javascript
+// Access the pusher instance async
+
+import('@bitrefill/react-pusher').then(({ getPusherClient }) => {
+  const pusher = getPusherClient(PUSHER_API_KEY, { additional: 'options' });
+  const channel = pusher.subscribe('someChannel');
+  // ...
+})
 // ...
 ```
 
@@ -61,8 +71,8 @@ const channel = pusher.subscribe('someChannel');
 
 | Name              | Type
 | ----              | ----
-| `apiKey`         | `PropTypes.string.isRequired`
-| `opts`         | `PropTypes.object`
+| `apiKey`          | `PropTypes.string.isRequired`
+| `opts`            | `PropTypes.object`
 | `channel`         | `PropTypes.string.isRequired`
 | `events`          | `PropTypes.array.isRequired`
 | `onUpdate`        | `PropTypes.func.isRequired`

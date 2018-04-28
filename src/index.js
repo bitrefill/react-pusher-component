@@ -2,7 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js';
 
-export let pusherClient;
+let pusherClient;
 
 function getExistingInstance(apiKey) {
   if (typeof window === 'undefined') return;
@@ -15,22 +15,24 @@ function getExistingInstance(apiKey) {
   );
 }
 
-function setInstance(_pusherClient) {
+function setPusherClient(_pusherClient) {
   pusherClient = _pusherClient;
   if (typeof window !== 'undefined') window.BITREFILL__PUSHER = _pusherClient;
 }
 
-function createPusherClient(apiKey, opts = {}) {
+export function getPusherClient(apiKey, opts = {}) {
   const existingInstance = getExistingInstance(apiKey);
 
-  setInstance(
+  const client =
     existingInstance ||
-      new Pusher(apiKey, {
-        encrypted: true,
-        authTransport: 'ajax',
-        ...opts,
-      })
-  );
+    new Pusher(apiKey, {
+      encrypted: true,
+      authTransport: 'ajax',
+      ...opts,
+    });
+
+  setPusherClient(client);
+  return client;
 }
 
 export default class PusherSubscription extends Component {
@@ -47,7 +49,7 @@ export default class PusherSubscription extends Component {
     super(props);
     const { apiKey, channel, events, opts } = this.props;
 
-    createPusherClient(apiKey, opts);
+    getPusherClient(apiKey, opts);
     this.bindPusherEvents(channel, events);
   }
 
