@@ -7,20 +7,20 @@
     "url": "https://github.com/bitrefill/react-pusher-component"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack --json > stats.json",
     "build:watch": "NODE_ENV=production webpack -w",
     "lint": "eslint ./ --max-warnings 0 --fix",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "precommit": "lint-staged",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "webpack-stats": "webpack-bundle-analyzer stats.json"
   },
   "peerDependencies": {
     "@types/pusher-js": "^3.0.30"
   },
   "dependencies": {
-    "prop-types": "^15.6.0",
     "pusher-js": "^4.2.2",
     "react": "^16.2.0"
   },
@@ -31,7 +31,10 @@
     "eslint-config-bitrefill": "^1.1.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
-    "webpack": "^3.10.0"
+    "prop-types": "^15.6.0",
+    "webpack": "^4.6.0",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.15"
   },
   "lint-staged": {
     "**/*.js": [
