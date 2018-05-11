@@ -3,6 +3,7 @@ const path = require('path');
 const srcPath = path.join(__dirname, './src');
 
 module.exports = {
+  mode: 'production',
   entry: [srcPath],
   output: {
     path: path.join(__dirname, './dist'),
@@ -27,5 +28,6 @@ module.exports = {
   },
   externals: {
     react: 'react',
+    'pusher-js': 'pusher-js',
   },
 };
